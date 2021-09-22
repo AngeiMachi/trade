@@ -3,7 +3,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
 import MovingAverage from '../MovingAverage/MovingAverage';
 import Button from '@material-ui/core/Button';
-import useSignals from '../../../users/useSignals';
 
 
 export const  QuoteCardHeader = ({quote,hideQuote}) => {
