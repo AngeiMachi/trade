@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 import axios from 'axios';
 
 const GET_SIGNALS = "updateQuote";
-const SOCKET_SERVER_URL = "http://192.168.0.149:55555";
+const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
 
 const useSignals = () => {
   const [quotes, setQuotes] = useState([]);
