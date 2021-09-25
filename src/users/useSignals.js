@@ -2,11 +2,14 @@ import * as _ from 'lodash';
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 import axios from 'axios';
+import { useDispatch} from 'react-redux';
 
 const GET_SIGNALS = "updateQuote";
-const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
+const SOCKET_SERVER_URL = "http://localhost:55555";
 
 const useSignals = () => {
+  const dispatch = useDispatch();
+  
   const [quotes, setQuotes] = useState([]);
   const socketRef = useRef();
   const [lastestInterval,setLastestInterval] =useState(0);
@@ -16,6 +19,7 @@ const useSignals = () => {
     socketRef.current.on(GET_SIGNALS, (quote) => {
       const updatedQuotes = updateQuote(quotes,quote);
       setQuotes(updatedQuotes);
+      dispatch({type: 'UPDATE_QUOTE_LIST', payload: updatedQuotes});
     });
 
     const updateQuote = ((quotes,updatedQuote)=>{
@@ -37,11 +41,12 @@ const useSignals = () => {
   useEffect(() => {
     const fetchMyAPI= async () => {
       const response = await axios.get(SOCKET_SERVER_URL+"/getAllQuotes");
-      const quotesData = response.data
-      setQuotes(quotesData);
+      const quoteList = response.data;
+      dispatch({type: 'UPDATE_QUOTE_LIST', payload: quoteList})
+      setQuotes(quoteList);
     }
     fetchMyAPI();
-  },[])
+  },[dispatch])
   
 
   return { quotes , lastestInterval};

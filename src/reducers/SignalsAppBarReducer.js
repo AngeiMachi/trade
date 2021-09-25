@@ -1,5 +1,22 @@
 const initState = {
     searchText: "",
+    tabs:{
+        currentTab:0,
+        tabList: [
+            {
+                tabName:"ALL",tabId:0,
+                quoteList:[]   
+            },
+            {
+                tabName:"ETF",tabId:1,
+                quoteList:["SPY",'QQQ',"XLF","IWM","SMH"]
+            },
+            {
+                tabName:"GIANTS",tabId:1,
+                quoteList:["AAPL",'AMZN',"GOOGL","FB","TSLA","NVDA","AMD","CAT","BA","MSFT","NFLX"]
+            }
+        ]
+    }
 }
 
 const signalsAppBarReducer = (state = initState, action) => {
@@ -11,6 +28,14 @@ const signalsAppBarReducer = (state = initState, action) => {
                 searchText: action.payload
             }
 
+        case "CHANGE_TAB": {
+            return {
+                ...state,
+                tabs:{...state.tabs,
+                      currentTab:action.payload
+                    }
+            }
+        }
         // case 'CHANGE_OCCUPATION':
         //     return {
         //         ...state,
@@ -27,3 +52,8 @@ const signalsAppBarReducer = (state = initState, action) => {
 }
 
 export default signalsAppBarReducer;
+
+export const getTabs =  (state) =>{
+    return state.signalsAppBar.tabs.tabList;
+} 
+

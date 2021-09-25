@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 export const QuoteCard = ({quote}) => {
     const [isVisible,HideQuoteCard] = useState(true);
+    
 
     function handleHideQuote() {
       HideQuoteCard(false);

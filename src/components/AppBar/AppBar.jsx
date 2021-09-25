@@ -1,7 +1,6 @@
 import React from 'react';
 import { alpha, makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux';
-
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,8 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import QuoteTabs from './QuoteTabs/QuoteTabs';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -112,6 +110,12 @@ export default function SignalsAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleSearchTextChange = (event) => {
+    dispatch({type: 'CHANGE_SEARCH_TEXT', payload: event.target.value});
+    dispatch({type: 'UPDATE_FILTER', payload: {searchText:event.target.value}});
+    
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -182,7 +186,7 @@ export default function SignalsAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            Signals
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -196,7 +200,7 @@ export default function SignalsAppBar() {
               }}
               inputProps={{ 'aria-label': 'search' }}
               value={signalsAppBar.searchText}
-              onChange={e => dispatch({type: 'CHANGE_SEARCH_TEXT', payload: e.target.value})}
+              onChange={handleSearchTextChange}
             />
           </div>
           <div className={classes.grow} />
@@ -234,11 +238,7 @@ export default function SignalsAppBar() {
             </IconButton>
           </div>
         </Toolbar>
-        <Tabs value={0}  aria-label="simple tabs example " >
-          <Tab label="Item One" />
-          <Tab label="Item Two" />
-          <Tab label="Item Three"  />
-        </Tabs>
+        <QuoteTabs />
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
