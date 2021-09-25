@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'interval', headerName: 'Id', width: 20 },
-    { field: 'timeNY', headerName: 'NY', width: 100 },
-    { field: 'timeIL', headerName: 'IL', width: 100 },
+    { field: 'interval', headerName: 'Id', width: 20 ,hide: true },
+    { field: 'timeNY', headerName: 'NY', width: 80 , hide: true},
+    { field: 'timeIL', headerName: 'Time', width: 100 },
     { field: 'signalType', headerName: 'Description', width: 450 },
   ];
 
