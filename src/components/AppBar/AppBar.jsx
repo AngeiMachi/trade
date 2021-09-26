@@ -16,6 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import QuoteTabs from './QuoteTabs/QuoteTabs';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -116,6 +117,10 @@ export default function SignalsAppBar() {
     
   }
 
+  const handleFilter = (event) => {
+    dispatch({type: 'UPDATE_FILTER', payload: {isHealthy:true}});
+  }
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -129,6 +134,7 @@ export default function SignalsAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>hello</MenuItem>
     </Menu>
   );
 
@@ -205,7 +211,12 @@ export default function SignalsAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+          <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleFilter}>
+              <Badge badgeContent={0} color="secondary">
+                <FilterListIcon />
+              </Badge>
+          </IconButton>
+            <IconButton aria-label="show 4 new mails" color="inherit" >
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
               </Badge>

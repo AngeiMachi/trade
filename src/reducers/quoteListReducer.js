@@ -5,7 +5,8 @@ const initState = {
     quotesView:[],
     filterList: {
         searchText:"",
-        quoteList:[]
+        quoteList:[],
+        isHealthy:false
     }
 }
 
@@ -49,16 +50,17 @@ const quoteListReducer = (state = initState, action) => {
 }
 
 const performFilter =(state,newFilter)=> {
-    let firstFilterQuoteIteration ;
+    let filteredQuotes  = [...state.quotes];
     if (newFilter.searchText.length>0) {
-        firstFilterQuoteIteration =filterByText(state,newFilter);
-        return firstFilterQuoteIteration;
+        filteredQuotes =filterByText(state,newFilter);
     }
-    if (newFilter.quoteList.length>0) {
-        firstFilterQuoteIteration = filterByQuoteList(state,newFilter);
-        return firstFilterQuoteIteration;
+    else if (newFilter.quoteList.length>0) {
+        filteredQuotes = filterByQuoteList(state,newFilter);
     }
-    return [...state.quotes];
+    if (newFilter.isHealthy) {
+        filteredQuotes = filterHealthy(filteredQuotes);
+    }
+    return filteredQuotes;
     
 }
 
@@ -79,6 +81,23 @@ const filterByQuoteList = (state,newFilter) => {
         } else {
             return [...state.quotes];
         }
+}
+
+const filterHealthy = (filteredQuotes) => {
+    let newQuotes = [];
+
+    for (let quote of filteredQuotes) {
+        let countHealthy = 0;
+        for (let sma of quote.sma) {
+            if ((sma.type===10 || sma.type===20) && sma.isAbove) countHealthy++;
+            if (countHealthy===2) {
+                newQuotes.unshift(quote);
+                break;
+            }
+        }
+    }
+
+    return newQuotes;
 }
 
 
