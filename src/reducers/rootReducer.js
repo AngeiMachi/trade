@@ -1,5 +1,5 @@
 
-import signalsAppBarReducer from './ignalsAppBarReducer';
+import signalsAppBarReducer from './signalsAppBarReducer';
 import quoteListReducer from './quoteListReducer'
 import {combineReducers} from 'redux';
 
