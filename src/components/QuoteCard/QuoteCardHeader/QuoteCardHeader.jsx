@@ -10,7 +10,7 @@ export const  QuoteCardHeader = ({quote,hideQuote}) => {
     const  lastestInterval   =  0 
     const quoteLastInterval = quote.signalsHistory[quote.signalsHistory.length-1].interval;
     return (
-      <CssBaseline>
+      <CssBaseline >
         <Box display="flex" p={1} bgcolor="background.paper">
           <Box p={1} flexGrow={1} bgcolor={quoteLastInterval===lastestInterval?"success.main":"grey.300"} display="flex">
             <Button variant="contained" color="primary" onClick={hideQuote}>
