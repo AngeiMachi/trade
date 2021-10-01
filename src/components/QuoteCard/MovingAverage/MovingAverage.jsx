@@ -44,7 +44,7 @@ const useMyStyles = props => {
   return useStyles(props); 
 } 
 
-export const  MovingAverage = ({type,isAbove,isTrendingUp,quoteName}) => {
+export const  MovingAverage = ({type,isAbove,isGlowing,isTrendingUp,quoteName}) => {
   const [maColor,setMaColor] = useState('gery');
   const [signalColor,setSignalColor] = useState('gery');
   const props = {
@@ -52,7 +52,10 @@ export const  MovingAverage = ({type,isAbove,isTrendingUp,quoteName}) => {
     signalColor
   }
   const classes = useMyStyles(props); 
-  const menuStyle = clsx(classes.avatar);
+  const menuStyle = clsx(
+                      classes.avatar,
+                      isGlowing && classes.glow
+                      );
 
   useEffect(() =>{
     switch(type) {

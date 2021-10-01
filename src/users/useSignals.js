@@ -9,6 +9,7 @@ const SOCKET_SERVER_URL = "https://signalsservers.loca.lt";
 
 const useSignals = () => {
   const dispatch = useDispatch();
+  //const lastestInterval2 =  useSelector(state => state.quoteList.lastestInterval);
   
   const [quotes, setQuotes] = useState([]);
   const socketRef = useRef();

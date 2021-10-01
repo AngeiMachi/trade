@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Box from '@material-ui/core/Box';
@@ -9,6 +10,9 @@ export const  QuoteCardHeader = ({quote,hideQuote}) => {
 
     const  lastestInterval   =  0 
     const quoteLastInterval = quote.signalsHistory[quote.signalsHistory.length-1].interval;
+    const touchedMASignals = _.filter(quote.signalsHistory,(sigHis)=>sigHis.signalDetails.signalType ===10 && sigHis.signalDetails.signalGroupType===3);
+    let glowingMAcollection = _.map(touchedMASignals,touchedSig=>touchedSig.signalDetails.payload.type);
+
     return (
       <CssBaseline >
         <Box display="flex" p={1} bgcolor="background.paper">
@@ -19,7 +23,7 @@ export const  QuoteCardHeader = ({quote,hideQuote}) => {
           </Box>
           {quote.sma.map((sma)=>(
             <Box p={1} bgcolor={quoteLastInterval===lastestInterval?"success.main":"grey.300"} key={sma.type+quote.quoteName}>
-              <MovingAverage type={sma.type} isAbove={sma.isAbove} isTrendingUp={sma.isTrendingUp} quoteName={quote.quoteName}/>
+              <MovingAverage isGlowing={_.includes(glowingMAcollection,"SMA"+sma.type)} type={sma.type} isAbove={sma.isAbove} isTrendingUp={sma.isTrendingUp} quoteName={quote.quoteName}/>
             </Box>
           ))}
         </Box>

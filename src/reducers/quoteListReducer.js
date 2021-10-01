@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 const initState = {
     quotes: [],
     quotesView:[],
+    lastInterval:0,
     filterList: {
         searchText:"",
         quoteList:[],
@@ -14,17 +15,17 @@ const quoteListReducer = (state = initState, action) => {
     switch (action.type) {
         //Change character name
         case 'UPDATE_QUOTE_LIST':{
-            const newQuoteView = state.quotesView.length===0? [...action.payload]: state.quotesView;
+            const newQuoteView = state.quotesView.length===0? [...action.payload]: performFilter(action.payload,state.filterList);
             return {
                 ...state,
-                quotes: action.payload,
+                quotes: [...action.payload],
                 quotesView: newQuoteView
             }
         }
         case 'UPDATE_FILTER':{
             const filterQriteria =action.payload;
             const newFilter = {...state.filterList,...filterQriteria};
-            const newQuoteView = performFilter(state,newFilter);
+            const newQuoteView = performFilter(state.quotes,newFilter);
             return {
                 ...state,
                 quotesView:[...newQuoteView],
@@ -49,13 +50,13 @@ const quoteListReducer = (state = initState, action) => {
     }
 }
 
-const performFilter =(state,newFilter)=> {
-    let filteredQuotes  = [...state.quotes];
+const performFilter =(quotes,newFilter)=> {
+    let filteredQuotes  = [...quotes];
     if (newFilter.searchText.length>0) {
-        filteredQuotes =filterByText(state,newFilter);
+        filteredQuotes =filterByText(quotes,newFilter);
     }
     else if (newFilter.quoteList.length>0) {
-        filteredQuotes = filterByQuoteList(state,newFilter);
+        filteredQuotes = filterByQuoteList(quotes,newFilter);
     }
     if (newFilter.isHealthy) {
         filteredQuotes = filterHealthy(filteredQuotes);
@@ -64,22 +65,22 @@ const performFilter =(state,newFilter)=> {
     
 }
 
-const filterByText = (state,newFilter) =>{
+const filterByText = (quotes,newFilter) =>{
     let newQuoteView = [];
     if (newFilter.searchText!=="") {
-        newQuoteView =_.filter(state.quotes,quote=>quote.quoteName.startsWith(newFilter.searchText.toUpperCase()));
+        newQuoteView =_.filter(quotes,quote=>quote.quoteName.startsWith(newFilter.searchText.toUpperCase()));
     }
     else {
-        newQuoteView = [...state.quotes];
+        newQuoteView = [...quotes];
     }
     return newQuoteView;
 }
 
-const filterByQuoteList = (state,newFilter) => {
+const filterByQuoteList = (quotes,newFilter) => {
         if (newFilter.quoteList.length>0) {
-            return  _.intersectionBy(state.quotes, newFilter.quoteList.map(item=>({quoteName:item})), 'quoteName');
+            return  _.intersectionBy(quotes, newFilter.quoteList.map(item=>({quoteName:item})), 'quoteName');
         } else {
-            return [...state.quotes];
+            return [...quotes.quotes];
         }
 }
 

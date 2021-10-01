@@ -4,15 +4,18 @@ const initState = {
         currentTab:0,
         tabList: [
             {
-                tabName:"ALL",tabId:0,
+                tabName:"ALL",
+                tabId:0,
                 quoteList:[]   
             },
             {
-                tabName:"ETF",tabId:1,
+                tabName:"ETF",
+                tabId:1,
                 quoteList:["SPY",'QQQ',"XLF","IWM","SMH"]
             },
             {
-                tabName:"GIANTS",tabId:1,
+                tabName:"GIANTS",
+                tabId:1,
                 quoteList:["AAPL",'AMZN',"GOOGL","FB","TSLA","NVDA","AMD","CAT","BA","MSFT","NFLX"]
             }
         ]

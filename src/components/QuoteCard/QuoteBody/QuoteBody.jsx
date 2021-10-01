@@ -5,7 +5,7 @@ const columns = [
     { field: 'interval', headerName: 'Id', width: 20 ,hide: true },
     { field: 'timeNY', headerName: 'NY', width: 80 , hide: true},
     { field: 'timeIL', headerName: 'Time', width: 100 },
-    { field: 'signalType', headerName: 'Description', width: 450 },
+    { field: 'signalDetails', headerName: 'Description', width: 450 , valueFormatter: ({ value }) => value.signalDescription},
   ];
 
 const  QuoteCardBody = ({signals}) => {
