@@ -45,8 +45,8 @@ const useMyStyles = props => {
 } 
 
 export const  MovingAverage = ({type,isAbove,isGlowing,isTrendingUp,quoteName}) => {
-  const [maColor,setMaColor] = useState('gery');
-  const [signalColor,setSignalColor] = useState('gery');
+  const [maColor,setMaColor] = useState('black');
+  const [signalColor,setSignalColor] = useState('black');
   const props = {
     maColor,
     signalColor
@@ -64,23 +64,23 @@ export const  MovingAverage = ({type,isAbove,isGlowing,isTrendingUp,quoteName}) 
         setSignalColor('red');
         break;
       case movingAverageTypeEnum.sma20:
-        isAbove && setMaColor('yellow');
-        setSignalColor('yellow');
+        isAbove && setMaColor('#fbfb31');
+        setSignalColor('#fbfb31');
         break;
       case movingAverageTypeEnum.sma50:
         isAbove && setMaColor('deepskyblue');
         setSignalColor('deepskyblue');
         break;
       case movingAverageTypeEnum.sma100:
-        isAbove && setMaColor('darkblue');
-        setSignalColor('darkblue');
+        isAbove && setMaColor('#327ae7');
+        setSignalColor('#327ae7');
         break;
       case movingAverageTypeEnum.sma200:
         isAbove && setMaColor('orange');
         setSignalColor('orange');
         break;
       default:
-        setMaColor('grey');  
+        setMaColor('black');  
     }
     
 

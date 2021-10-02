@@ -10,20 +10,12 @@ const QuoteList = () => {
         <Grid direction='row' container spacing={1}>
         <Grid container item xs={12} lg={4}>
           {quoteListView.map((quote, i) => (
-              i % 3 === 0 && <QuoteCard quote={quote} key={i}/>
+               <QuoteCard quote={quote} key={i}/>
           ))}
            
         </Grid>
-        <Grid container item xs={12} lg={4}>
-          {quoteListView.map((quote, i) => (
-              i % 3 === 1 && <QuoteCard quote={quote} key={i}/>
-          ))}
-        </Grid>
-        <Grid container item xs={12} lg={4}>
-          {quoteListView.map((quote, i) => (
-              i % 3 === 2 && <QuoteCard quote={quote} key={i}/>
-          ))}
-        </Grid>
+        
+        
       </Grid>
     )
 }

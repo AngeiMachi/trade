@@ -10,7 +10,7 @@ export const  QuoteCardHeader = ({quote,hideQuote}) => {
 
     const  lastestInterval   =  0 
     const quoteLastInterval = quote.signalsHistory[quote.signalsHistory.length-1].interval;
-    const touchedMASignals = _.filter(quote.signalsHistory,(sigHis)=>sigHis.signalDetails.signalType ===10 && sigHis.signalDetails.signalGroupType===3);
+    const touchedMASignals = _.filter(quote.signalsHistory,(sigHis)=> sigHis.signalDetails.signalGroupType===3);
     let glowingMAcollection = _.map(touchedMASignals,touchedSig=>touchedSig.signalDetails.payload.type);
 
     return (

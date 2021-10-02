@@ -32,6 +32,29 @@ const quoteListReducer = (state = initState, action) => {
                 filterList: newFilter
             }
         }
+        case 'UPDATE_QUOTE':{
+            const quotes = [...state.quotes];
+             _.remove(quotes, { 'quoteName': action.payload.quoteName });
+            let didInsert = false;
+            for (let i = 0; i < quotes.length; i++) {
+                if (quotes[i].signalsHistory[0]?.interval <= action.payload.signalsHistory[0]?.interval || quotes[i].signalsHistory.length === 0) {
+                    quotes.splice(i, 0, action.payload);
+                    didInsert = true;
+                    break;
+                }
+            }
+            if (!didInsert) {
+                quotes.push(action.payload);
+            }
+            const newQuoteView =  performFilter(quotes,state.filterList);
+
+            return {
+                ...state,
+                quotes: quotes,
+                quotesView: newQuoteView
+            }
+        }
+
             
             
 
