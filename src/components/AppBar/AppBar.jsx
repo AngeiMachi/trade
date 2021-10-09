@@ -81,8 +81,8 @@ export default function SignalsAppBar() {
   
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar  position="fixed">
+        <Toolbar >
           <IconButton
             edge="start"
             className={classes.menuButton}

@@ -115,7 +115,7 @@ const filterHealthy = (filteredQuotes) => {
         for (let sma of quote.sma) {
             if ((sma.type===10 || sma.type===20) && sma.isAbove) countHealthy++;
             if (countHealthy===2) {
-                newQuotes.unshift(quote);
+                newQuotes.push(quote);
                 break;
             }
         }
