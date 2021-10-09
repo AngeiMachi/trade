@@ -19,7 +19,7 @@ export const QuoteCard = ({quote}) => {
       <CssBaseline>
         <Card style={{  width: '100%' }}>
             <QuoteCardHeader quote={quote} hideQuote={handleHideQuote}/>
-            <QuoteCardBody signals={quote?.signalsHistory} />
+            <QuoteCardBody signals={quote?.signalsHistory} prevDayPrice={quote.metadata.prevPrice}/>
         </Card>
       </CssBaseline> }
       </> 
