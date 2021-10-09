@@ -6,6 +6,7 @@ import { useDispatch} from 'react-redux';
 
 const GET_SIGNALS = "updateQuote";
 const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
+//const SOCKET_SERVER_URL = "http://localhost:55555";
 
 const useSignals = () => {
   const dispatch = useDispatch();
