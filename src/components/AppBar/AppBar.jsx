@@ -81,7 +81,7 @@ export default function SignalsAppBar() {
   
   return (
     <div className={classes.grow}>
-      <AppBar  position="fixed">
+      <AppBar  position="sticky">
         <Toolbar >
           <IconButton
             edge="start"

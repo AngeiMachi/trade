@@ -82,7 +82,6 @@ const QuoteMenu = () => {
       >
         <MenuItem onClick={handleFilter} className={quoteList.filterList.isHealthy?classes.selectedMenuItem:""}>On The Move</MenuItem>
         <MenuItem onClick={handleMenuClose} >Healthy</MenuItem>
-        <MenuItem onClick={handleMenuClose} className={classes.selectedMenuItem}></MenuItem>
       </Menu>
     );
   

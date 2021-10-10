@@ -20,7 +20,7 @@ const columns = [
   { field: 'timeNY', headerName: 'NY', width: 80 , hide: true},
   { field: 'timeIL', headerName: 'Time', width: 89 },
   { field: 'price', headerName: 'Price', width: 105 , valueFormatter: (params,props) => {
-    const pcnt = (params.value-params.row.prevPrive) / params.value * 100.0
+    const pcnt = (params.value-params.row.prevPrice) / params.value * 100.0
     return `${params.value}(${pcnt.toFixed(1)})%`;
   }},
   { field: 'signalDetails', headerName: 'Description', width: 250 , valueFormatter: ({ value }) => value.signalDescription}
@@ -41,7 +41,7 @@ const  QuoteCardBody = (props) => {
       <>
         
         <div style={{  width: '100%' }} className={classes.root}>
-            <DataGrid rows={signals.map(obj=> ({ ...obj, prevPrive: prevDayPrice }))}
+            <DataGrid rows={signals.map(obj=> ({ ...obj, prevPrice: prevDayPrice }))}
                       columns={columns}
                       getRowId={(row) => row.id}
                       showPagination ={false} 
