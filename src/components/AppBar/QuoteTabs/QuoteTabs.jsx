@@ -1,7 +1,7 @@
 import {useSelector, useDispatch} from 'react-redux';
-import Collapse from '@material-ui/core/Collapse';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Collapse from '@mui/material/Collapse';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import {getTabs} from '../../../reducers/signalsAppBarReducer';
 
 const QuoteTabs = () => {

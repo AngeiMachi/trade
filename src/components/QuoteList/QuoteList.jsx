@@ -1,6 +1,6 @@
 
 import {QuoteCard} from '../QuoteCard/QuoteCard';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import { useSelector } from 'react-redux';
 
 const QuoteList = () => {

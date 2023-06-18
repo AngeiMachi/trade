@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Card from '@material-ui/core/Card';
+import Card from '@mui/material/Card';
 import QuoteCardHeader from './QuoteCardHeader/QuoteCardHeader';
 import QuoteCardBody from './QuoteBody/QuoteBody';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
 
 
 export const QuoteCard = ({quote}) => {

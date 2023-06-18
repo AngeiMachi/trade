@@ -1,17 +1,17 @@
-import _ from 'lodash';
+//mport _ from 'lodash';
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import MovingAverage from '../MovingAverage/MovingAverage';
-import Button from '@material-ui/core/Button';
+//import MovingAverage from '../MovingAverage/MovingAverage';
+import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 
 export const  QuoteCardHeader = ({quote,hideQuote}) => {
 
     const  lastestInterval   =  useSelector(state => state.quoteList.lastInterval);
     const quoteLastInterval = quote.signalsHistory[0].interval;
-    const touchedMASignals = _.filter(quote.signalsHistory,(sigHis)=> sigHis.signalDetails.signalGroupType===3);
-    let glowingMAcollection = _.map(touchedMASignals,touchedSig=>touchedSig.signalDetails.payload.type);
+    //const touchedMASignals = _.filter(quote.signalsHistory,(sigHis)=> sigHis.signalDetails.signalGroupType===3);
+    //let glowingMAcollection = _.map(touchedMASignals,touchedSig=>touchedSig.signalDetails.payload.type);
 
     return (
       <CssBaseline >
