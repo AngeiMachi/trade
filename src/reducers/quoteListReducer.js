@@ -15,11 +15,14 @@ const quoteListReducer = (state = initState, action) => {
     switch (action.type) {
         //Change character name
         case 'UPDATE_QUOTE_LIST':{
-            const newQuoteView = state.quotesView.length===0? [...action.payload]: performFilter(action.payload,state.filterList);
+            const newQuoteView = performFilter(action.payload,state.filterList);
+            const newQuoteViewAfterSort = performSort(newQuoteView);
+            
             return {
                 ...state,
                 quotes: [...action.payload],
-                quotesView: newQuoteView
+                quotesView: newQuoteViewAfterSort,
+                lastInterval:newQuoteViewAfterSort[0]?.signalsHistory[0]?.interval || 0
             }
         }
         case 'UPDATE_FILTER':{
@@ -34,43 +37,30 @@ const quoteListReducer = (state = initState, action) => {
         }
         case 'UPDATE_QUOTE':{
             const quotes = [...state.quotes];
-             _.remove(quotes, { 'quoteName': action.payload.quoteName });
-            let didInsert = false;
-            for (let i = 0; i < quotes.length; i++) {
-                if (quotes[i].signalsHistory[0]?.interval <= action.payload.signalsHistory[0]?.interval || quotes[i].signalsHistory.length === 0) {
-                    quotes.splice(i, 0, action.payload);
-                    didInsert = true;
-                    break;
-                }
+            const updatedQuote = _.find(quotes, { 'quoteName': action.payload.quoteName });
+            if (updatedQuote) {
+                _.remove(quotes, { 'quoteName': action.payload.quoteName });
             }
-            if (!didInsert) {
-                quotes.push(action.payload);
-            }
+            quotes.push(action.payload);
+            
             const newQuoteView =  performFilter(quotes,state.filterList);
+            const newQuoteViewAfterSort = performSort(newQuoteView);
 
             return {
                 ...state,
                 quotes: quotes,
-                quotesView: newQuoteView
+                quotesView: newQuoteViewAfterSort,
+                lastInterval:newQuoteViewAfterSort[0]?.signalsHistory[0]?.interval || 0
             }
         }
 
-            
-            
-
-        // case 'CHANGE_OCCUPATION':
-        //     return {
-        //         ...state,
-        //         occupation: action.payload
-        //     }
-        // case 'CHANGE_AGE':
-        //     return {
-        //         ...state,
-        //         age: action.payload
-        //     }
         default:
             return state
     }
+}
+
+const performSort = (quotesList) => {
+     return _.orderBy(quotesList, ['signalsHistory[0].interval'],['desc']);
 }
 
 const performFilter =(quotes,newFilter)=> {
@@ -84,6 +74,9 @@ const performFilter =(quotes,newFilter)=> {
     if (newFilter.isHealthy) {
         filteredQuotes = filterHealthy(filteredQuotes);
     }
+
+    filteredQuotes = filterByOnlyDeveloperMode(filteredQuotes);
+    
     return filteredQuotes;
     
 }
@@ -120,7 +113,19 @@ const filterHealthy = (filteredQuotes) => {
             }
         }
     }
+    return newQuotes;
+}
 
+const filterByOnlyDeveloperMode = (quotes)=>{
+    let newQuotes = [];
+    for (let quote of quotes) {
+        let newSignalHistory = quote.signalsHistory.filter(signal=>!signal.signalDetails.isDeveloperMode)
+        if (newSignalHistory.length>0) {
+            const newQuote ={...quote,signalsHistory:newSignalHistory};
+            newQuotes = [...newQuotes,newQuote];
+            
+        }
+    }
     return newQuotes;
 }
 

@@ -1,29 +1,30 @@
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
+import { Theme } from '@mui/material'
 
 
 
 const useMyStyles = props => {
   const useStyles = makeStyles(theme => ({
     avatar: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
+      width: '4px',
+      height: '4px',
       position: 'relative',
       "box-shadow":"0px 0px 2px 1px "+props.maColor,
       '& svg':{
         zIndex:'10',
         color:props.maColor,
-        fontSize: theme.spacing(3),
+        fontSize: '3px',
         position: 'absolute',
         top:'-2px'  
       },
       '& span': {
-        fontSize: theme.spacing(2),
+        fontSize: '2px',
         color:props.maColor,
         
         position: 'absolute',

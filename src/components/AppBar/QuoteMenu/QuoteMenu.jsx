@@ -2,11 +2,11 @@ import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import FilterListIcon from '@material-ui/icons/FilterList';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { makeStyles } from '@material-ui/core/styles';
 import {useSelector, useDispatch} from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
@@ -98,7 +98,7 @@ const QuoteMenu = () => {
       >
         <MenuItem  onClick={handleProfileMenuOpen}>
           <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleFilter}>
-            <Badge badgeContent={4} color="secondary">
+            <Badge overlap="rectangular" badgeContent={4} color="secondary">
               <FilterListIcon />
             </Badge>
           </IconButton>
@@ -106,7 +106,7 @@ const QuoteMenu = () => {
         </MenuItem>
         <MenuItem>
           <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge overlap="rectangular" badgeContent={4} color="secondary">
               <MailIcon />
             </Badge>
           </IconButton>
@@ -114,7 +114,7 @@ const QuoteMenu = () => {
         </MenuItem>
         <MenuItem>
           <IconButton aria-label="show 11 new notifications" color="inherit">
-            <Badge badgeContent={11} color="secondary">
+            <Badge overlap="rectangular" badgeContent={11} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -140,17 +140,17 @@ const QuoteMenu = () => {
         <>
          <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleFilter}>
-                <Badge badgeContent={0} color="secondary">
+                <Badge overlap="rectangular" badgeContent={0} color="secondary">
                   <FilterListIcon />
                 </Badge>
             </IconButton>
               <IconButton aria-label="show 4 new mails" color="inherit" >
-                <Badge badgeContent={4} color="secondary">
+                <Badge overlap="rectangular" badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
               </IconButton>
               <IconButton aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={17} color="secondary">
+                <Badge overlap="rectangular" badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

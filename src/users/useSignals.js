@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useDispatch} from 'react-redux';
 
 const GET_SIGNALS = "updateQuote";
-const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
-//const SOCKET_SERVER_URL = "http://localhost:55555";
+//const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
+const SOCKET_SERVER_URL = "http://localhost:11111";
 
 const useSignals = () => {
   const dispatch = useDispatch();
@@ -22,15 +22,6 @@ const useSignals = () => {
          dispatch({type: 'UPDATE_QUOTE', payload: quote});
     });
 
-    // const updateQuote = ((quotes,updatedQuote)=>{
-    //   const quoteLastestInterval = updatedQuote.signalsHistory[updatedQuote.signalsHistory.length-1].interval;
-    //   let newQuotes = _.filter(quotes, quote => quote.quoteName!==updatedQuote.quoteName);
-    //   if (quoteLastestInterval>lastestInterval) {
-    //     setLastestInterval(quoteLastestInterval);
-    //   }
-    //   newQuotes.unshift(updatedQuote);   
-    //   return [...newQuotes];
-    // });
     
     return () => {
       socketRef.current.disconnect();
