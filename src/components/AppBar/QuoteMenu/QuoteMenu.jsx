@@ -1,43 +1,44 @@
 import React from 'react';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import Badge from '@mui/icons-material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@mui/styles';
+import { styled, alpha } from '@mui/material/styles';
 import {useSelector, useDispatch} from 'react-redux';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
 
-const useStyles = makeStyles((theme) => ({
-    selectedMenuItem: {
-        'background-color': 'rgb(46 116 220 / 50%)'
+// const useStyles = makeStyles((theme) => ({
+//     selectedMenuItem: {
+//         'background-color': 'rgb(46 116 220 / 50%)'
 
-    },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-    },
-    sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-  }));
+//     },
+//     title: {
+//       display: 'none',
+//       [theme.breakpoints.up('sm')]: {
+//         display: 'block',
+//       },
+//     },
+//     sectionDesktop: {
+//       display: 'none',
+//       [theme.breakpoints.up('md')]: {
+//         display: 'flex',
+//       },
+//     },
+//     sectionMobile: {
+//       display: 'flex',
+//       [theme.breakpoints.up('md')]: {
+//         display: 'none',
+//       },
+//     },
+//   }));
 
 const QuoteMenu = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
     const dispatch = useDispatch();
     const quoteList = useSelector(state => state.quoteList);
 
@@ -80,7 +81,9 @@ const QuoteMenu = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleFilter} className={quoteList.filterList.isHealthy?classes.selectedMenuItem:""}>On The Move</MenuItem>
+        <MenuItem onClick={handleFilter} 
+                      // className={quoteList.filterList.isHealthy?classes.selectedMenuItem:""}
+                            >On The Move</MenuItem>
         <MenuItem onClick={handleMenuClose} >Healthy</MenuItem>
       </Menu>
     );
@@ -138,7 +141,9 @@ const QuoteMenu = () => {
 
     return (
         <>
-         <div className={classes.sectionDesktop}>
+         <div 
+        //  className={classes.sectionDesktop}
+         >
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleFilter}>
                 <Badge overlap="rectangular" badgeContent={0} color="secondary">
                   <FilterListIcon />
@@ -166,7 +171,9 @@ const QuoteMenu = () => {
               </IconButton>
           </div>
           {/* ellipsis menu on mobile   */}
-          <div className={classes.sectionMobile}>
+          <div 
+            // className={classes.sectionMobile}
+            >
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -174,7 +181,6 @@ const QuoteMenu = () => {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
             </IconButton>
           </div>
           {renderMobileMenu}

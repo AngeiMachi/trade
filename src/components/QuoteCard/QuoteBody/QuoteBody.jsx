@@ -1,19 +1,16 @@
 
 import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import { makeStyles } from '@material-ui/core/styles';
+import styled from '@emotion/styled';
 
-
-const useStyles = makeStyles({
-  root: {
-    '& .positive': {
-      backgroundColor: 'green',
-    },
-    '& .negative': {
-      backgroundColor: 'red',
-    },
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  '& .positive': {
+    backgroundColor: 'green',
   },
-});
+  '& .negative': {
+    backgroundColor: 'red',
+  },
+}));
 
 const columns = [
   { field: 'interval', headerName: 'Id', width: 20 },
@@ -34,7 +31,7 @@ const columnsVisibilityModel = {
   timeNY:false
 }
 const  QuoteCardBody = (props) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const {signals,prevDayPrice} = props;
 
   const [sortModel, setSortModel] = useState([
@@ -47,8 +44,8 @@ const  QuoteCardBody = (props) => {
   return (
       <>
         
-        <div style={{  width: '100%' }} className={classes.root}>
-            <DataGrid rows={signals.map(obj=> ({ ...obj, prevPrice: prevDayPrice }))}
+        <div style={{  width: '100%' }}>
+            <StyledDataGrid rows={signals.map(obj=> ({ ...obj, prevPrice: prevDayPrice }))}
                       columns={columns}
                       columnVisibilityModel={columnsVisibilityModel}
                       getRowId={(row) => row.id}
