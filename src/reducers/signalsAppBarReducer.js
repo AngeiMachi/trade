@@ -39,16 +39,7 @@ const signalsAppBarReducer = (state = initState, action) => {
                     }
             }
         }
-        // case 'CHANGE_OCCUPATION':
-        //     return {
-        //         ...state,
-        //         occupation: action.payload
-        //     }
-        // case 'CHANGE_AGE':
-        //     return {
-        //         ...state,
-        //         age: action.payload
-        //     }
+        
         default:
             return state
     }
