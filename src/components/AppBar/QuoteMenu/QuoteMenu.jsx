@@ -6,36 +6,23 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FilterListIcon from '@mui/icons-material/FilterList';
-// import { makeStyles } from '@mui/styles';
-import { styled, alpha } from '@mui/material/styles';
 import {useSelector, useDispatch} from 'react-redux';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import { styled } from '@mui/material/styles';
 
-// const useStyles = makeStyles((theme) => ({
-//     selectedMenuItem: {
-//         'background-color': 'rgb(46 116 220 / 50%)'
 
-//     },
-//     title: {
-//       display: 'none',
-//       [theme.breakpoints.up('sm')]: {
-//         display: 'block',
-//       },
-//     },
-//     sectionDesktop: {
-//       display: 'none',
-//       [theme.breakpoints.up('md')]: {
-//         display: 'flex',
-//       },
-//     },
-//     sectionMobile: {
-//       display: 'flex',
-//       [theme.breakpoints.up('md')]: {
-//         display: 'none',
-//       },
-//     },
-//   }));
+const SectionDesktop = styled('div')(({ theme }) => ({
+  display: 'none',
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  }
+}));
+const SectionMobile = styled('div')(({ theme }) => ({
+  display: 'flex',
+  [theme.breakpoints.up('md')]: {
+    display: 'none',
+  }
+}));
 
 const QuoteMenu = () => {
     // const classes = useStyles();
@@ -81,9 +68,7 @@ const QuoteMenu = () => {
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleFilter} 
-                      // className={quoteList.filterList.isHealthy?classes.selectedMenuItem:""}
-                            >On The Move</MenuItem>
+        <MenuItem onClick={handleFilter} >On The Move</MenuItem>
         <MenuItem onClick={handleMenuClose} >Healthy</MenuItem>
       </Menu>
     );
@@ -141,9 +126,7 @@ const QuoteMenu = () => {
 
     return (
         <>
-         <div 
-        //  className={classes.sectionDesktop}
-         >
+         <SectionDesktop>
             <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleFilter}>
                 <Badge overlap="rectangular" badgeContent={0} color="secondary">
                   <FilterListIcon />
@@ -169,11 +152,9 @@ const QuoteMenu = () => {
               >
                 <AccountCircle />
               </IconButton>
-          </div>
+          </SectionDesktop>
           {/* ellipsis menu on mobile   */}
-          <div 
-            // className={classes.sectionMobile}
-            >
+          <SectionMobile>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -182,7 +163,7 @@ const QuoteMenu = () => {
               color="inherit"
             >
             </IconButton>
-          </div>
+          </SectionMobile>
           {renderMobileMenu}
           {renderMenu}
         </>
