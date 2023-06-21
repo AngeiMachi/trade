@@ -17,7 +17,12 @@ const QuoteTabs = () => {
     
     return (
         <Collapse in={signalsAppBar.searchText.length===0}>
-            <Tabs value={signalsAppBar.tabs.currentTab} onChange={handleChange}  aria-label="simple tabs example " >
+            <Tabs   indicatorColor="secondary"
+                    textColor="inherit"
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                    value={signalsAppBar.tabs.currentTab} 
+                    onChange={handleChange} >
                 {signalsAppBar.tabs.tabList.map((tab, i) => (
                  <Tab label={tab.tabName} key={i}/>
                 ))}

@@ -11,9 +11,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';  
 
 import QuoteTabs from './QuoteTabs/QuoteTabs';
-//import QuoteMenu from './QuoteMenu/QuoteMenu';
+// import QuoteMenu from './QuoteMenu/QuoteMenu';
 //import { createTheme } from '@mui/material/styles';
-// import {css} from '@emotion/react';
+import {css} from '@emotion/react';
 
 //const theme = createTheme();
 
@@ -60,6 +60,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const StyledTitle =  styled(Typography)(({ theme }) => ({
+  display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+}));
+
 
 export default function SignalsAppBar() {
   // const classes = useStyles();
@@ -88,14 +95,14 @@ export default function SignalsAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <StyledTitle
             variant="h6"
             noWrap
             component="div"
            
           >
             Signals
-          </Typography>
+          </StyledTitle>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -107,20 +114,8 @@ export default function SignalsAppBar() {
               onChange={handleSearchTextChange}
             />
           </Search>
-          {/* <div css={styleSearch}>
-            <div css={styleSearchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              css={styleInputRoot }
-              inputProps={{ 'aria-label': 'search' }}
-              value={signalsAppBar.searchText}
-              onChange={handleSearchTextChange}
-            />
-          </div>
-          <div css={css`flexGrow: 1`} /> */}
-              {/* <QuoteMenu /> */}
+          <div css={css`flexGrow: 1`} /> 
+           {/* <QuoteMenu />  */}
         </Toolbar>
         <QuoteTabs />
       </AppBar>

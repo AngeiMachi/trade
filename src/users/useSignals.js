@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useDispatch} from 'react-redux';
 
 const GET_SIGNALS = "updateQuote";
-//const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
-const SOCKET_SERVER_URL = "http://localhost:11111";
+const SOCKET_SERVER_URL = "https://signalsserver.loca.lt";
+//const SOCKET_SERVER_URL = "http://localhost:11111";
 
 const useSignals = () => {
   const dispatch = useDispatch();
