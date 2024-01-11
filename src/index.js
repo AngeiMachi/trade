@@ -4,16 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+//import { createStore } from 'redux';
 import rootReducer from './reducers/rootReducer';
-import { composeWithDevTools } from "redux-devtools-extension";
+//import { composeWithDevTools } from "redux-devtools-extension";
+import { configureStore } from '@reduxjs/toolkit';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const store = createStore(
-              rootReducer,
-              composeWithDevTools()
-  )
+const store = configureStore({
+  reducer: rootReducer,
+  // Other middleware or enhancers can be configured here if needed
+});
+// const store = createStore(
+//               rootReducer,
+//               composeWithDevTools()
+//   )
 
 root.render(
   <React.StrictMode>

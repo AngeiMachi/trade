@@ -3,6 +3,7 @@ import signalsAppBarReducer from './signalsAppBarReducer';
 import quoteListReducer from './quoteListReducer'
 import {combineReducers} from 'redux';
 
+
 //Combine all the sub reducers
 const rootReducer = combineReducers({
     signalsAppBar: signalsAppBarReducer,

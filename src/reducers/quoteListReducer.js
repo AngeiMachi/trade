@@ -1,5 +1,9 @@
 import * as _ from 'lodash';
 
+export const selectQuotesByName = (state, quoteName) => {
+    return state.quotes.filter(quote => quote.quoteName === quoteName);
+};
+
 const initState = {
     quotes: [],
     quotesView:[],
@@ -75,7 +79,7 @@ const performFilter =(quotes,newFilter)=> {
         filteredQuotes = filterHealthy(filteredQuotes);
     }
 
-    filteredQuotes = filterByOnlyDeveloperMode(filteredQuotes);
+    //filteredQuotes = filterByOnlyDeveloperMode(filteredQuotes);
     
     return filteredQuotes;
     
