@@ -1,19 +1,7 @@
-import './App.css';
-import useSignals from './users/useSignals';
-import SignalsAppBar from './components/AppBar/AppBar';
-import QuoteList from './components/QuoteList/QuoteList';
-
+import RaceScreen from './race/RaceScreen';
 
 function App() {
-  
-  useSignals();
-
-  return (
-    <div className="App">
-      <SignalsAppBar />
-      <QuoteList />   
-    </div>
-  );
+  return <RaceScreen />;
 }
 
 export default App;
