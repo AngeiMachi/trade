@@ -37,12 +37,48 @@ export const BADGES = {
     explanation: 'Yesterday it opened below the hourly 200 SMA; today it opens above it. A trend-change setup.',
   },
   'trending-volume': {
-    explanation: 'Pre-market volume well above an average morning up to the same time (1.5× or more), on a stock passing the gap.',
+    explanation:
+      'Volume well above normal up to the same time of day (1.5× or more): pre-market on the race board, the day so far on the Alerts tab (live, with the arrow of the last 30 minutes: ↑ rising, → steady, ↓ fading). Real interest behind the move.',
   },
   'above-bollinger': {
-    explanation: 'Above the daily upper Bollinger band (20 days, 2σ). Unusual strength — the stock is set to open outside its normal range.',
+    explanation:
+      'Above the daily upper Bollinger band (20 days, 2σ). Unusual strength — the stock is set to open outside its normal range. It stays on the board whatever the other rules say, and the market watch alerts when it comes back down to the band.',
+  },
+  'kept-outside-bollinger': {
+    explanation:
+      'A rule would have taken this stock off the board (the 20 SMA, yesterday’s range or volume), but it is above the daily upper Bollinger band, so it stays. Its score and warnings still show how healthy it is.',
   },
   watch: {
     explanation: 'On your watchlist. Watched stocks are listed in the Watching panel every day, whatever the rules say.',
+  },
+
+  // Decision badges on the Alerts tab: facts beside the score, to help decide on a setup.
+  'on-board': {
+    explanation: "The stock is in the race's final standings at the bell, not only healthy pre-market.",
+  },
+  'quiet-volume': {
+    explanation:
+      'The dim form of Trending volume: volume so far today is under 0.7× a normal day up to the same time. Few buyers behind the move, it can fade.',
+  },
+  volume: {
+    explanation:
+      'Live volume, between quiet and busy: the day so far against a normal day. The arrow is the last 30 minutes against normal for those minutes, compared with the 30 before: ↑ rising, → steady (the normal fade after the open is steady), ↓ fading.',
+  },
+  'steep-sma': {
+    explanation:
+      'The hourly 20 SMA rises 0.3 ATR or more over 10 hours, where the race score gives its angle full marks: a strong trend under the price.',
+  },
+  'deep-test': {
+    explanation:
+      'The strong form of Touched: the hourly candle went 0.3 ATR or more under the 20 SMA and buyers took it all back. A real test that held.',
+  },
+  'tight-stop': {
+    explanation: 'The level where the setup is wrong is close (0.25 ATR or less under the buy): little risk per share.',
+  },
+  'wide-stop': {
+    explanation: 'The level where the setup is wrong is far (0.6 ATR or more under the buy): take a smaller position for the same risk.',
+  },
+  'room-to-high': {
+    explanation: "Today's high is at least 0.5 ATR above the buy: room to run before it meets the morning's sellers, a natural first target.",
   },
 };

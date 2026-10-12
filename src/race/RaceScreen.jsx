@@ -10,8 +10,11 @@ import TrendingDownRoundedIcon from '@mui/icons-material/TrendingDownRounded';
 import SearchOffOutlinedIcon from '@mui/icons-material/SearchOffOutlined';
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import AutoGraphRoundedIcon from '@mui/icons-material/AutoGraphRounded';
+import OpenInFullRoundedIcon from '@mui/icons-material/OpenInFullRounded';
 import { useState } from 'react';
 import useRace from './useRace';
+import useMarketWatch from './useMarketWatch';
+import AlertsTab, { AlertToasts } from './AlertsTab';
 import useDismissed from './useDismissed';
 import useWatchlist from './useWatchlist';
 import RaceHeader from './RaceHeader';
@@ -84,6 +87,15 @@ const toggleFilters = [
     title: 'Show only stocks with the MA reclaimed badge: yesterday opened below the hourly 200 SMA; today it opens above it',
     matches: hasHighlight('ma-reclaimed'),
     tone: 'highlight',
+  },
+  {
+    key: 'aboveBollinger',
+    label: 'Above upper BB',
+    Icon: OpenInFullRoundedIcon,
+    title:
+      'Show only stocks above the daily upper Bollinger band (the open, after the bell). They stay on the board even when they fail the 20 SMA rules, and the market watch alerts when they come back down to the band',
+    matches: hasHighlight('above-bollinger'),
+    tone: 'bollinger',
   },
 ];
 
@@ -162,7 +174,7 @@ const PhaseBanner = ({ race }) => {
       <div className="banner banner--final" role="status">
         <FlagOutlinedIcon fontSize="small" />
         <span>
-          <strong>The bell has rung.</strong> These are the final standings, judged on the open. Stocks that opened below yesterday's high are out, unless they opened within noise of it ("Near high") or reclaimed the hourly 200 SMA ("Opened below high").
+          <strong>The bell has rung.</strong> These are the final standings, judged on the open. Stocks that opened below yesterday's high are out, unless they opened within noise of it ("Near high") or reclaimed the hourly 200 SMA ("Opened below high"). Stocks that opened above the daily upper Bollinger band stay whatever the rules say. During the session the market watch alerts on the Alerts tab.
         </span>
       </div>
     );
@@ -179,11 +191,13 @@ const EmptyState = ({ icon, title, children }) => (
 );
 
 const ruleKinds = [
+  { kind: 'keep', title: 'Always on the board' },
   { kind: 'elimination', title: 'Out for the day' },
   { kind: 'qualification', title: 'To be in the race' },
   { kind: 'scoring', title: 'Score (0–100) = 100 × each factor below, multiplied' },
   { kind: 'warning', title: 'Warnings' },
   { kind: 'highlight', title: 'Highlights' },
+  { kind: 'watch', title: 'Market watch (during the session)' },
 ];
 
 const RuleBook = ({ ruleBook = [] }) => (
@@ -369,12 +383,35 @@ const Standings = ({ race }) => {
   );
 };
 
+const TAB_KEY = 'race.tab';
+
+const Tabs = ({ tab, onChange, unreadCount, buySetups }) => (
+  <nav className="tabs" role="tablist" aria-label="Board views">
+    <button type="button" role="tab" className="tab" aria-selected={tab === 'race'} onClick={() => onChange('race')}>
+      Race
+    </button>
+    <button type="button" role="tab" className="tab" aria-selected={tab === 'alerts'} onClick={() => onChange('alerts')}>
+      Alerts
+      {buySetups > 0 && <span className="tab__count tab__count--opportunity" title="Buy setups today">{buySetups}</span>}
+      {unreadCount > 0 && <span className="tab__count" title="Unread alerts">{unreadCount}</span>}
+    </button>
+  </nav>
+);
+
 const RaceScreen = () => {
-  const { race, connection } = useRace();
+  const { race, connection, replayPaused, setReplayPaused } = useRace();
+  const marketWatch = useMarketWatch();
+  const [tab, setTab] = useState(() => window.localStorage.getItem(TAB_KEY) || 'race');
+  const changeTab = (next) => {
+    window.localStorage.setItem(TAB_KEY, next);
+    setTab(next);
+  };
+  const buySetups = marketWatch.activeAlerts.filter((alert) => alert.tone === 'opportunity').length;
 
   return (
     <div className="race-app">
-      <RaceHeader race={race} connection={connection} />
+      <RaceHeader race={race} connection={connection} replayPaused={replayPaused} onReplayPaused={setReplayPaused} />
+      <AlertToasts toasts={marketWatch.toasts} onClose={marketWatch.dismissToast} onOpen={() => changeTab('alerts')} />
       {race && <PhaseBanner race={race} />}
       {race && connection === 'offline' && (
         <div className="banner banner--offline" role="alert">
@@ -383,7 +420,8 @@ const RaceScreen = () => {
         </div>
       )}
       <main className="race-main">
-        <Board race={race} connection={connection} />
+        <Tabs tab={tab} onChange={changeTab} unreadCount={marketWatch.unreadCount} buySetups={buySetups} />
+        {tab === 'alerts' ? <AlertsTab marketWatch={marketWatch} /> : <Board race={race} connection={connection} />}
       </main>
     </div>
   );

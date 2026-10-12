@@ -197,6 +197,23 @@ code {
 .badge--ma-reclaimed { --badge: #a78bfa; }
 .badge--trending-volume { --badge: #e879f9; }
 .badge--above-bollinger { --badge: #f472b6; }
+/* Kept on the board by the band: the same pink as an outline only, like a rule exception. */
+.badge--kept-outside-bollinger { --badge: #f472b6; background: transparent; box-shadow: none; border: 1px solid color-mix(in srgb, var(--badge) 70%, transparent); }
+/* Kept on the board by the band: the same pink as an outline only, so it reads as "because of the BB". */
+.badge--kept-outside-bollinger { --badge: #f472b6; background: transparent; }
+
+/* Decision badges on the Alerts tab, in the race's language. Volume: Trending volume itself, and quiet as its dim
+   dashed outline. The hourly 20 SMA family: steep in Clean's light blue, deep test as the solid form of Touched's grey.
+   Today's high with yesterday's-high's arrow. Stops: lime tight, Stretched's yellow when wide (a caution). */
+.badge--quiet-volume { --badge: var(--volume); background: transparent; box-shadow: none; border: 1px dashed color-mix(in srgb, var(--badge) 55%, transparent); opacity: 0.8; }
+/* Normal volume (the live volume badge between busy and quiet): the race's volume hue, plain outline. */
+.badge--volume { --badge: var(--volume); background: transparent; box-shadow: none; border: 1px solid color-mix(in srgb, var(--badge) 55%, transparent); }
+.badge--steep-sma { --badge: #bfe3ff; }
+.badge--deep-test { --badge: #94a3b8; color: #0f141b; background: var(--badge); box-shadow: none; }
+.badge--room-to-high { --badge: #22d3ee; background: transparent; }
+.badge--tight-stop { --badge: #a3e635; }
+.badge--wide-stop { --badge: #facc15; background: transparent; }
+.badge--on-board { --badge: #3b82f6; }
 
 /* Personal marker, not a signal: dashed outline. */
 .badge--watch {
@@ -383,6 +400,33 @@ code {
 
 .connection--offline .connection__dot {
   background: var(--out);
+}
+
+/* Replay only: stop / play the mock clock. Amber while stopped so a frozen board is never mistaken for live. */
+.replay-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.replay-control:hover {
+  border-color: var(--text-2);
+}
+
+.replay-control--paused {
+  border-color: #f59e0b;
+  background: color-mix(in srgb, #f59e0b 16%, transparent);
+  color: #fbbf24;
 }
 
 /* Banners */
@@ -582,9 +626,622 @@ code {
   color: var(--reclaim);
 }
 
+.toggle-button--bollinger[aria-pressed='true'] {
+  background: var(--bollinger-wash);
+  border-color: color-mix(in srgb, var(--bollinger) 50%, transparent);
+  color: var(--bollinger);
+}
+
 .toggle-button:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
+}
+
+.toggle-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Board views: the race and the Alerts tab (market watch), plus the popups. */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab[aria-selected='true'] {
+  color: var(--text);
+  border-bottom-color: var(--focus);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -2px;
+}
+
+.tab__count {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: var(--focus);
+  color: var(--ground);
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.tab__count--opportunity {
+  background: var(--pace);
+}
+
+.alerts-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.alerts-empty {
+  margin: 40px 0;
+  text-align: center;
+}
+
+/* Two columns side by side, one per alert group; each has its own hue in the header. */
+.alert-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .alert-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.alert-col {
+  --group: var(--focus);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--group) 35%, var(--line));
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.alert-col--sma-reclaim {
+  --group: #8f9bff;
+}
+
+.alert-col--upper-band-touch {
+  --group: var(--bollinger);
+}
+
+.alert-col__head {
+  padding: 14px 16px 12px;
+  border-top: 4px solid var(--group);
+  background: color-mix(in srgb, var(--group) 16%, var(--panel));
+}
+
+.alert-col__head h3 {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.alert-col__counts {
+  display: flex;
+  gap: 14px;
+  margin-top: 4px;
+  color: var(--text-2);
+  font-size: var(--text-sm);
+}
+
+.alert-col__buys {
+  color: var(--pace);
+  font-weight: 700;
+}
+
+.alert-col__empty {
+  margin: 0;
+  padding: 22px 16px;
+  color: var(--text-2);
+  text-align: center;
+}
+
+.setup-list {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.setup-card {
+  --tone: var(--watch);
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--tone) 45%, var(--line));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--tone) 7%, var(--panel-raised));
+}
+
+.setup-card--opportunity {
+  --tone: var(--pace);
+  background: color-mix(in srgb, var(--pace) 12%, var(--panel-raised));
+}
+
+.setup-card--info {
+  --tone: var(--text-2);
+  background: var(--panel-raised);
+}
+
+.setup-card--caution {
+  --tone: var(--risk);
+}
+
+.setup-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.setup-card__rank {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--tone);
+  color: var(--ground);
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.setup-card__quote {
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.setup-card__repeat {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--tone);
+  color: var(--ground);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.setup-card__score {
+  margin-left: auto;
+  color: var(--tone);
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.setup-card .alert {
+  background: var(--panel);
+}
+
+.setup-card__dismiss {
+  margin-left: 4px;
+  color: var(--text-3);
+}
+
+.setup-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -2px 0 10px;
+}
+
+.setup-card__badges .badge {
+  margin-left: 0;
+}
+
+.dismissed-list {
+  margin: 0;
+  padding: 4px 16px 12px;
+  list-style: none;
+}
+
+.dismissed-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: var(--text-sm);
+}
+
+.alert-col__fold {
+  border-top: 1px solid var(--line);
+}
+
+.alert-col__fold > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.alert-col__fold > summary .muted {
+  font-size: var(--text-xs);
+  font-weight: 400;
+}
+
+.alert-col__fold[open] > summary {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.alert-col__rule {
+  margin: 10px 16px;
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.watching-list {
+  margin: 0;
+  padding: 0 16px 12px;
+  list-style: none;
+}
+
+.alert-score {
+  min-width: 2.2em;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--ground);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.alert__score-parts {
+  display: grid;
+  gap: 2px;
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs);
+}
+
+.alert__score-parts li {
+  display: grid;
+  grid-template-columns: 9em 1fr auto;
+  gap: 8px;
+}
+
+.alert__score-total {
+  margin-top: 2px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.stage-trail {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.stage-trail__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stage-trail__arrow {
+  color: var(--text-3);
+  font-size: var(--text-xs);
+}
+
+.stage-chip {
+  --tone: var(--text-3);
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--tone) 50%, transparent);
+  color: var(--tone);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.stage-chip--opportunity { --tone: var(--pace); }
+.stage-chip--prepare { --tone: var(--watch); }
+.stage-chip--caution { --tone: var(--risk); }
+
+.stage-detail + .stage-detail {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-soft);
+}
+
+.stage-detail__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-list,
+.alert__details {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.watching {
+  display: grid;
+  grid-template-columns: 52px auto;
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 0 0;
+  font-size: var(--text-sm);
+}
+
+.watching__state {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--watch);
+}
+
+.watching__note {
+  grid-column: 2;
+  color: var(--text-2);
+  font-size: var(--text-xs);
+}
+
+.alert-list {
+  display: grid;
+  gap: 8px;
+}
+
+.alert,
+.toast {
+  --tone: var(--text-3);
+  border-radius: 8px;
+  border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--tone);
+  background: var(--panel-raised);
+}
+
+/* Buy setups always stand out; unread ones get a dot after the time. */
+.alert--opportunity {
+  background: color-mix(in srgb, var(--pace) 9%, var(--panel-raised));
+}
+
+.alert--unread .alert__time::after {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: var(--focus);
+  vertical-align: middle;
+}
+
+.alert__toggle {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.alert__more {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* The call at a glance: solid green = buy setup (the strong form), amber = avoid, grey = no edge. */
+.action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.action-pill--opportunity {
+  background: var(--pace);
+  color: var(--ground);
+}
+
+.action-pill--prepare {
+  background: var(--watch-wash);
+  color: var(--watch);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--watch) 50%, transparent);
+}
+
+.action-pill--caution {
+  background: var(--risk-wash);
+  color: var(--risk);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--risk) 45%, transparent);
+}
+
+.action-pill--info {
+  background: var(--panel);
+  color: var(--text-3);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.alert__price {
+  color: var(--text-2);
+  font-size: var(--text-sm);
+}
+
+.alert__summary {
+  margin: 6px 0 0;
+  color: var(--text);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.alert-filter--opportunity[aria-pressed='true'] {
+  color: var(--pace);
+}
+
+.alert-filter--prepare[aria-pressed='true'] {
+  color: var(--watch);
+}
+
+.alert-filter--caution[aria-pressed='true'] {
+  color: var(--risk);
+}
+
+.alert--opportunity,
+.toast--opportunity {
+  --tone: var(--pace);
+}
+
+.alert--prepare,
+.toast--prepare {
+  --tone: var(--watch);
+}
+
+.alert--caution,
+.toast--caution {
+  --tone: var(--risk);
+}
+
+.alert__head {
+  flex-wrap: wrap;
+}
+
+.toast__body {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.alert__head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.alert__quote {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  letter-spacing: 0.02em;
+}
+
+.alert__title {
+  color: var(--text-2);
+  font-weight: 600;
+}
+
+.alert__time {
+  margin-left: auto;
+  color: var(--text-3);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.alert__message {
+  margin: 4px 0 0;
+  color: var(--text);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.alert__details {
+  margin-top: 6px;
+  color: var(--text-2);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.toasts {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: grid;
+  gap: 10px;
+  width: 400px;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: 1fr 28px;
+  gap: 8px;
+  padding: 12px;
+  background: var(--panel);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  animation: toast-in 320ms var(--ease);
+}
+
+.toast--opportunity {
+  border-color: color-mix(in srgb, var(--pace) 45%, transparent);
+  border-left-width: 4px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
 }
 
 .link-button {
@@ -823,7 +1480,7 @@ code {
 }
 
 .tower__row--podium {
-  height: 64px;
+  min-height: 64px;
 }
 
 .tower__row--cut {

@@ -1,3 +1,5 @@
+import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import { addMinutes, formatTime, formatTradeDate } from './format';
 
 const NEW_YORK = 'America/New_York';
@@ -40,9 +42,13 @@ const LapTrack = ({ lap, totalLaps, decisionLaps, forming }) => {
   );
 };
 
-const RaceHeader = ({ race, connection }) => {
-  const candleEndIso = race?.phase === 'final' ? race.bellIso : race?.clockIso || addMinutes(race?.raceTimeIso, 5);
+const sinceBell = (minutes) => (minutes < 60 ? `${minutes} min` : `${Math.floor(minutes / 60)}h ${String(minutes % 60).padStart(2, '0')}m`);
+
+const RaceHeader = ({ race, connection, replayPaused, onReplayPaused }) => {
+  const isFinal = race?.phase === 'final';
+  const candleEndIso = isFinal ? race.clockIso || race.bellIso : race?.clockIso || addMinutes(race?.raceTimeIso, 5);
   const minutesToBell = race?.raceTimeIso ? Math.max(0, Math.round((new Date(race.bellIso) - new Date(candleEndIso)) / 60000)) : null;
+  const minutesSinceBell = isFinal ? Math.max(0, Math.round((new Date(candleEndIso) - new Date(race.bellIso)) / 60000)) : null;
 
   return (
     <header className="race-header">
@@ -58,6 +64,18 @@ const RaceHeader = ({ race, connection }) => {
       {race && <LapTrack lap={race.lap} totalLaps={race.totalLaps} decisionLaps={race.decisionLaps} forming={race.candleForming} />}
 
       <div className="race-header__clock">
+        {race?.isMock && (
+          <button
+            type="button"
+            className={`replay-control${replayPaused ? ' replay-control--paused' : ''}`}
+            onClick={() => onReplayPaused(!replayPaused)}
+            aria-label={replayPaused ? 'Play the replay' : 'Stop the replay'}
+            title={replayPaused ? 'Play the replay' : 'Stop the replay clock'}
+          >
+            {replayPaused ? <PlayArrowRoundedIcon fontSize="small" /> : <PauseRoundedIcon fontSize="small" />}
+            {replayPaused ? 'Play' : 'Stop'}
+          </button>
+        )}
         <div className="clock">
           <span className="clock__time">{formatTime(candleEndIso, NEW_YORK)}</span>
           <span className="clock__zone">New York</span>
@@ -67,10 +85,8 @@ const RaceHeader = ({ race, connection }) => {
           <span className="clock__zone">Israel</span>
         </div>
         <div className="countdown">
-          <span className="countdown__value">
-            {race?.phase === 'final' ? 'Open' : minutesToBell === null ? '–' : `${minutesToBell} min`}
-          </span>
-          <span className="clock__zone">{race?.phase === 'final' ? 'Market' : 'To the bell'}</span>
+          <span className="countdown__value">{isFinal ? sinceBell(minutesSinceBell) : minutesToBell === null ? '–' : `${minutesToBell} min`}</span>
+          <span className="clock__zone">{isFinal ? 'Since the bell' : 'To the bell'}</span>
         </div>
         <span className={`connection connection--${connection}`}>
           <span className="connection__dot" />

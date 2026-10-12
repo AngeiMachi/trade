@@ -20,6 +20,7 @@ import VerticalAlignBottomRoundedIcon from '@mui/icons-material/VerticalAlignBot
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import TrendingDownRoundedIcon from '@mui/icons-material/TrendingDownRounded';
 import KeyboardDoubleArrowUpRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowUpRounded';
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import Badge from './Badge';
 import { formatDollars, formatPct, formatPrice } from './format';
 
@@ -126,6 +127,9 @@ export const HighlightTags = ({ highlights = [] }) =>
       Icon={HIGHLIGHT_ICONS[highlight.id] || AutoGraphRoundedIcon}
     />
   ));
+
+export const KeptTag = ({ keptBy }) =>
+  keptBy ? <Badge id={keptBy.id} label={keptBy.label} detail={keptBy.message} Icon={ShieldOutlinedIcon} /> : null;
 
 const RelativeVolume = ({ entry }) => {
   if (entry.relativeVolume === null || entry.relativeVolume === undefined) {
@@ -395,6 +399,7 @@ const TimingTower = ({ standings, onDismiss, watched, onToggleWatch }) => {
             <TrendTag trend={entry.dailyTrend} />
             <SmaTag entry={entry} />
             <HighlightTags highlights={entry.highlights} />
+            <KeptTag keptBy={entry.keptBy} />
             <WarningTags warnings={entry.warnings} />
           </span>
           <span role="cell">
